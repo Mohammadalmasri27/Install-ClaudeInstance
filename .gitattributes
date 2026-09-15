@@ -1,0 +1,4 @@
+# Windows batch files break with LF line endings; keep scripts CRLF.
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.md  text
