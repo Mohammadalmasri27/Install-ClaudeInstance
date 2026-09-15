@@ -44,9 +44,23 @@
 1. حمّل المستودع: **Code ← Download ZIP** وفك الضغط.
 2. انقر مرتين على **`Install.cmd`**.
 
-في الحالتين: اكتب اسماً للنسخة الجديدة (مثل `Work` أو `Account2`)، فتُفتح فوراً ويظهر اختصار
-**«Claude - الاسم»** على سطح المكتب وفي قائمة Start. سجّل الدخول فيها بحسابك الثاني.
-كرّر العملية لأي عدد من الحسابات.
+في الحالتين يسألك السكربت:
+1. **كم نسخة تريد؟** — اضغط Enter مباشرة لإنشاء **نسخة واحدة**، أو اكتب العدد (حتى 20).
+2. **اسم كل نسخة** — يقترح اسماً تلقائياً (`Account2`، `Account3`…)؛ اضغط Enter لقبوله أو اكتب اسماً مثل `Work`.
+
+تُفتح النسخ فوراً، ويظهر لكل منها اختصار **«Claude - الاسم»** على سطح المكتب وفي قائمة Start.
+سجّل الدخول في كل نافذة بالحساب الذي تريده.
+
+**خيارات متقدمة في PowerShell:**
+
+```powershell
+.\Install-ClaudeInstance.ps1 -Count 3              # ثلاث نسخ بأسماء تلقائية
+.\Install-ClaudeInstance.ps1 -Name Work,Personal   # نسخ بأسماء محددة
+.\Install-ClaudeInstance.ps1 -List                 # عرض النسخ الموجودة
+```
+
+الأسماء التلقائية تتجاوز الأسماء المستخدمة، وإعادة إنشاء نسخة موجودة تحدّث اختصاراتها فقط دون المساس بتسجيل الدخول.
+مع أمر التثبيت الواحد، أضف الخيارات في آخره: `... ))) -Count 3`
 
 ### كيف يعمل؟
 Claude Desktop مبني على Electron، الذي يدعم المفتاح القياسي `--user-data-dir`.
@@ -68,13 +82,14 @@ Claude Desktop مبني على Electron، الذي يدعم المفتاح ال�
 - **هذه ليست ميزة رسمية من Anthropic.** قد يوقفها تحديث مستقبلي، لكن بياناتك تبقى سليمة في مجلداتها.
 
 ### الإزالة
-انقر مرتين على **`Uninstall.cmd`** واكتب اسم النسخة. تُحذف الاختصارات فقط، ولا تُحذف البيانات إلا إذا أجبت `y`.
+انقر مرتين على **`Uninstall.cmd`**؛ يعرض النسخ الموجودة، ثم اكتب اسماً أو عدة أسماء مفصولة بفواصل.
+تُحذف الاختصارات فقط، ولا تُحذف البيانات إلا إذا أجبت `y`.
 
 أو من PowerShell:
 
 ```powershell
-.\Install-ClaudeInstance.ps1 -Name Work -Uninstall              # يحذف الاختصارات ويُبقي البيانات
-.\Install-ClaudeInstance.ps1 -Name Work -Uninstall -RemoveData  # يحذف البيانات أيضاً
+.\Install-ClaudeInstance.ps1 -Name Work -Uninstall                     # يحذف الاختصارات ويُبقي البيانات
+.\Install-ClaudeInstance.ps1 -Name Work,Personal -Uninstall -RemoveData # يحذف البيانات أيضاً
 ```
 
 ---
@@ -109,10 +124,25 @@ This script creates **isolated Claude Desktop instances** that run at the same t
 1. Download the repo: **Code → Download ZIP**, then extract it.
 2. Double-click **`Install.cmd`**.
 
-Either way, enter a name for the new instance (e.g. `Work`). It opens right away, and a **"Claude - Name"**
-shortcut is added to the Desktop and Start menu. Sign in with your second account. Repeat for as many accounts as you need.
+Either way, the script asks:
+1. **How many instances?** Press Enter to create **one**, or type a number (up to 20).
+2. **A name for each.** It suggests one (`Account2`, `Account3`…); press Enter to accept or type your own, e.g. `Work`.
 
-Parameters: `-Name <name>` · `-Uninstall` · `-RemoveData` · `-NoLaunch`
+The instances open right away, each with a **"Claude - Name"** shortcut on the Desktop and in the Start menu.
+Sign in to each window with the account you want.
+
+**Advanced (PowerShell):**
+
+```powershell
+.\Install-ClaudeInstance.ps1 -Count 3              # three instances, automatic names
+.\Install-ClaudeInstance.ps1 -Name Work,Personal   # named instances
+.\Install-ClaudeInstance.ps1 -List                 # show existing instances
+```
+
+Automatic names skip ones already in use, and re-creating an existing instance only refreshes its shortcuts — its sign-in is kept.
+With the one-line installer, append options at the end: `... ))) -Count 3`
+
+All parameters: `-Name` · `-Count` · `-List` · `-Uninstall` · `-RemoveData` · `-NoLaunch`
 
 ### How it works
 Claude Desktop is an Electron app, and Electron honours the standard `--user-data-dir` switch.
@@ -127,7 +157,8 @@ and the shortcut resolves Claude's install path on every launch, so app updates 
 - **Unofficial — not an Anthropic feature.** A future Claude update could stop honouring the switch; your data stays in its folders either way.
 
 ### Uninstall
-Double-click **`Uninstall.cmd`** and enter the instance name. Shortcuts are removed; data is deleted only if you answer `y`.
+Double-click **`Uninstall.cmd`**: it lists your instances, then enter one name or several separated by commas.
+Shortcuts are removed; data is deleted only if you answer `y`.
 
 ---
 
